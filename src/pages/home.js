@@ -2,10 +2,13 @@ import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 export default function Home({navigation}) {
   const dispatch = useDispatch();
+  const data = useSelector(state => state.user);
 
+  console.log(data.user);
   return (
     <>
       <Text> Home </Text>
@@ -19,14 +22,6 @@ export default function Home({navigation}) {
         }}
         style={{marginTop: 18, borderColor: 'black', borderWidth: 1}}>
         <Text>Log Out</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => {
-          navigation.push('Chat');
-        }}
-        style={{marginTop: 18, borderColor: 'black', borderWidth: 1}}>
-        <Text>Chat</Text>
       </TouchableOpacity>
     </>
   );

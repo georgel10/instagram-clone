@@ -7,11 +7,10 @@ export default function user(state = INITIAL_STATE, action) {
   switch (action.type) {
     case 'LOG_IN':
       return {
-        token: action.token,
         user: action.user,
       };
     case 'LOG_OUT':
-      return {token: '', user: {}};
+      return {user: {}};
     default:
       return state;
   }

@@ -2,8 +2,22 @@ import React, {useState} from 'react';
 import {ActivityIndicator, Platform} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {useDispatch} from 'react-redux';
-import {register} from '../../services/auth';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import {useMutation} from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+const REGISTER = gql`
+  mutation register($name: String!, $email: String!, $password: String!) {
+    register(name: $name, email: $email, password: $password) {
+      _id
+      name
+      email
+      token
+      created_at
+    }
+  }
+`;
 
 import {
   PageContainer,
@@ -22,6 +36,7 @@ import {
 
 export default function SignUp({navigation}) {
   const dispatch = useDispatch();
+  const [register, {data}] = useMutation(REGISTER);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -31,27 +46,24 @@ export default function SignUp({navigation}) {
   const [processing, setProcessing] = useState(false);
 
   async function handleFormRegister() {
+    if (!acceptConditions) {
+      setError('You need accept the conditions to register');
+      return;
+    }
     setProcessing(true);
     try {
-      const response = await register();
-
+      const response = await register({variables: {name, email, password}});
       await AsyncStorage.setItem(
         '@racerfan:user',
-        JSON.stringify(response.user),
+        JSON.stringify(response.data.register),
       );
-      await AsyncStorage.setItem(
-        '@racerfan:token',
-        JSON.stringify(response.token),
-      );
-
       dispatch({
         type: 'LOG_IN',
-        token: response.token,
-        user: response.user,
+        user: response.data.register,
       });
       setProcessing(false);
     } catch (err) {
-      console.log(err);
+      setError(err.graphQLErrors[0].message);
       setProcessing(false);
     }
   }

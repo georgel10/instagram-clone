@@ -1,8 +1,22 @@
 import React, {useState} from 'react';
 import {ActivityIndicator, Platform} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {login} from '../../services/auth';
 import AsyncStorage from '@react-native-community/async-storage';
+
+import {useMutation} from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+const LOGIN = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      _id
+      name
+      email
+      token
+      created_at
+    }
+  }
+`;
 
 import {
   Logo,
@@ -20,6 +34,7 @@ import {
 
 export default function Login({navigation}) {
   const dispatch = useDispatch();
+  const [login, {data}] = useMutation(LOGIN);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,25 +44,19 @@ export default function Login({navigation}) {
   async function handleFormRegister() {
     setProcessing(true);
     try {
-      const response = await login();
+      const response = await login({variables: {email, password}});
 
       await AsyncStorage.setItem(
         '@racerfan:user',
-        JSON.stringify(response.user),
+        JSON.stringify(response.data.login),
       );
-      await AsyncStorage.setItem(
-        '@racerfan:token',
-        JSON.stringify(response.token),
-      );
-
       dispatch({
         type: 'LOG_IN',
-        token: response.token,
-        user: response.user,
+        user: response.data.login,
       });
       setProcessing(false);
     } catch (err) {
-      console.log(err);
+      setError(err.graphQLErrors[0].message);
       setProcessing(false);
     }
   }

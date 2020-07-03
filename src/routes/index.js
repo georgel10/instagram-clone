@@ -9,21 +9,17 @@ import AppRoutes from './app.routes';
 import Loading from '../pages/loading';
 
 export default function Routes() {
-  const user = useSelector(state => state.user);
+  const data = useSelector(state => state.user);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-
-  console.log(user);
 
   useEffect(() => {
     async function loadStorageData() {
       const StorageUser = await AsyncStorage.getItem('@racerfan:user');
-      const StorageToken = await AsyncStorage.getItem('@racerfan:token');
 
-      if (StorageToken && StorageUser) {
+      if (StorageUser) {
         dispatch({
           type: 'LOG_IN',
-          token: StorageToken,
           user: JSON.parse(StorageUser),
         });
       }
@@ -36,7 +32,13 @@ export default function Routes() {
   return (
     <>
       <NavigationContainer>
-        {loading ? <Loading /> : user.token ? <AppRoutes /> : <AuthRoutes />}
+        {loading ? (
+          <Loading />
+        ) : data.user.token ? (
+          <AppRoutes />
+        ) : (
+          <AuthRoutes />
+        )}
       </NavigationContainer>
     </>
   );
