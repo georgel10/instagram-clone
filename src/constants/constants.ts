@@ -1,0 +1,10 @@
+export const constants = {
+  LOG_IN: 'LOG_IN',
+  LOG_OUT: 'LOG_OUT',
+
+  GET_POSTS: 'GET_POSTS',
+  ADD_POST: 'ADD_POST',
+  ADD_POSTS: 'ADD_POSTS',
+  FIND_POST: 'FIND_POST',
+  RESET_FEED: 'RESET_FEED',
+};

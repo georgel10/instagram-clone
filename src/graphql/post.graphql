@@ -1,0 +1,21 @@
+query GetPosts($first: Float, $after: String) {
+  getPosts(first: $first, after: $after) {
+    pageInfo {
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        _id
+        content
+        comments
+        likes
+        authorInfo {
+          _id
+          name
+          username
+        }
+      }
+    }
+  }
+}

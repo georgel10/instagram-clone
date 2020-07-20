@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {ActivityIndicator, Platform} from 'react-native';
-import {useDispatch} from 'react-redux';
+import React, { useState } from 'react';
+import { ActivityIndicator, Platform } from 'react-native';
+import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {useMutation} from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 const LOGIN = gql`
@@ -32,9 +32,9 @@ import {
   ForgotPassword,
 } from './styles';
 
-export default function Login({navigation}) {
+export default function Login({ navigation }: { navigation: any }) {
   const dispatch = useDispatch();
-  const [login, {data}] = useMutation(LOGIN);
+  const [login, { data }] = useMutation(LOGIN);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,7 +44,7 @@ export default function Login({navigation}) {
   async function handleFormRegister() {
     setProcessing(true);
     try {
-      const response = await login({variables: {email, password}});
+      const response = await login({ variables: { email, password } });
 
       await AsyncStorage.setItem(
         '@racerfan:user',
@@ -75,7 +75,7 @@ export default function Login({navigation}) {
 
         <InputForm
           placeholder="Email"
-          onChangeText={text => setEmail(text)}
+          onChangeText={(text) => setEmail(text)}
           value={email}
           autoCapitalize="none"
           autoCompleteType="email"
@@ -83,7 +83,7 @@ export default function Login({navigation}) {
         />
         <InputForm
           placeholder="Contraseña"
-          onChangeText={text => setPassword(text)}
+          onChangeText={(text) => setPassword(text)}
           value={password}
           textContentType="password"
           secureTextEntry={true}
@@ -93,7 +93,7 @@ export default function Login({navigation}) {
           No recuerdo la contraseña
         </ForgotPassword>
         {processing && (
-          <ActivityIndicator size="large" style={{marginBottom: 16}} />
+          <ActivityIndicator size="large" style={{ marginBottom: 16 }} />
         )}
         <ButtonForm onPress={handleFormRegister}>
           <ButtonTextForm>Entrar</ButtonTextForm>

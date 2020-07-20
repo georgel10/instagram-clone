@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import RegisterPage from '../pages/auth/register';
 import LoginPage from '../pages/auth/login';

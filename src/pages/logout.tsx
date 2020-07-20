@@ -1,12 +1,13 @@
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {useDispatch} from 'react-redux';
-import {useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { UserState } from '../interfaces/User';
 
-export default function Home({navigation}) {
+export default function Logout({ navigation }: { navigation: any }) {
   const dispatch = useDispatch();
-  const data = useSelector(state => state.user);
+  const data = useSelector((state: UserState) => state.user);
 
   console.log(data.user);
   return (
@@ -20,7 +21,7 @@ export default function Home({navigation}) {
           await AsyncStorage.removeItem('@racerfan:user');
           await AsyncStorage.removeItem('@racerfan:token');
         }}
-        style={{marginTop: 18, borderColor: 'black', borderWidth: 1}}>
+        style={{ marginTop: 18, borderColor: 'black', borderWidth: 1 }}>
         <Text>Log Out</Text>
       </TouchableOpacity>
     </>

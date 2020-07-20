@@ -1,0 +1,23 @@
+mutation AddComment($content: String!, $userID: ID!, $postID: ID!) {
+  addComment(content: $content, userID: $userID, postID: $postID)
+}
+
+query GetComments($postID: ID!, $first: Float, $after: String) {
+  getComments(postID: $postID, first: $first, after: $after) {
+     pageInfo {
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        _id
+        author {
+          _id
+          name
+          email
+        }
+        content
+      }
+    }
+  }
+}

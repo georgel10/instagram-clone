@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {ActivityIndicator, Platform} from 'react-native';
+import React, { useState } from 'react';
+import { ActivityIndicator, Platform } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {useMutation} from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
 const REGISTER = gql`
@@ -34,15 +34,15 @@ import {
   CheckboxText,
 } from './styles';
 
-export default function SignUp({navigation}) {
+export default function SignUp({ navigation }: { navigation: any }) {
   const dispatch = useDispatch();
-  const [register, {data}] = useMutation(REGISTER);
+  const [register, { data }] = useMutation(REGISTER);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [acceptConditions, setAcceptConditions] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState('');
   const [processing, setProcessing] = useState(false);
 
   async function handleFormRegister() {
@@ -52,7 +52,7 @@ export default function SignUp({navigation}) {
     }
     setProcessing(true);
     try {
-      const response = await register({variables: {name, email, password}});
+      const response = await register({ variables: { name, email, password } });
       await AsyncStorage.setItem(
         '@racerfan:user',
         JSON.stringify(response.data.register),
@@ -83,12 +83,12 @@ export default function SignUp({navigation}) {
 
         <InputForm
           placeholder="Nombre"
-          onChangeText={text => setName(text)}
+          onChangeText={(text) => setName(text)}
           value={name}
         />
         <InputForm
           placeholder="Email"
-          onChangeText={text => setEmail(text)}
+          onChangeText={(text) => setEmail(text)}
           value={email}
           autoCapitalize="none"
           autoCompleteType="email"
@@ -96,7 +96,7 @@ export default function SignUp({navigation}) {
         />
         <InputForm
           placeholder="Contraseña"
-          onChangeText={text => setPassword(text)}
+          onChangeText={(text) => setPassword(text)}
           value={password}
           textContentType="password"
           secureTextEntry={true}
@@ -115,7 +115,7 @@ export default function SignUp({navigation}) {
           <CheckboxText>Acepto los términos y condiciones</CheckboxText>
         </CheckboxBox>
         {processing && (
-          <ActivityIndicator size="large" style={{marginBottom: 16}} />
+          <ActivityIndicator size="large" style={{ marginBottom: 16 }} />
         )}
         <ButtonForm onPress={handleFormRegister}>
           <ButtonTextForm>Registrarme</ButtonTextForm>
