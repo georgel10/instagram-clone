@@ -121,7 +121,7 @@ export const HeaderPost = styled.KeyboardAvoidingView`
 export const Avatar = styled.Image`
   width: 50px;
   height: 50px;
-  border-radius: 50;
+  border-radius: 50px;
   margin-right: 10px;
 `;
 
@@ -157,12 +157,12 @@ export const InputFormComment = styled.TextInput`
 
 export const CircleButton = styled.TouchableHighlight`
   background-color: #0095ff;
-  width: 35;
-  height: 35;
-  border-radius: 50;
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
   align-items: center;
   justify-content: space-around;
-  margin-top: 5;
+  margin-top: 5px;
 `;
 
 export const CommentText = styled.Text`

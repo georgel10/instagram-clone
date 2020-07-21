@@ -3,7 +3,12 @@ import { View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useMutation } from '@apollo/client';
 import { Row, CircleButton, InputFormComment } from '../styles';
-import { AddCommentDocument, AddCommentMutation } from '../generated/graphql';
+import {
+  AddCommentDocument,
+  AddCommentMutation,
+  GetPostsDocument,
+  GetCommentsDocument,
+} from '../generated/graphql';
 
 const CommentInput = ({ postID }: { postID: string }) => {
   const [comment, setComment] = useState('');
@@ -14,11 +19,16 @@ const CommentInput = ({ postID }: { postID: string }) => {
     const result = await addComment({
       variables: {
         content: comment,
-        userID: '5f07b7c8ebeabc29a95eccc3',
+        userID: '5f111f3c80c9c21c9c6f6244',
         postID,
       },
+      refetchQueries: [
+        { query: GetPostsDocument },
+        { query: GetCommentsDocument, variables: { postID, first: 40 } },
+      ],
     });
     console.log(result);
+    setComment('');
   };
 
   return (

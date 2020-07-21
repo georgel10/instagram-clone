@@ -21,12 +21,14 @@ const customFetch = (uri: RequestInfo, options: RequestInit) => {
   });
 };
 
+const cache = new InMemoryCache();
+
 const client = new ApolloClient({
   link: createHttpLink({
     uri: 'http://192.168.0.105:4000/graphql',
     fetch: customFetch,
   }),
-  cache: new InMemoryCache(),
+  cache,
 });
 
 const Index = () => {

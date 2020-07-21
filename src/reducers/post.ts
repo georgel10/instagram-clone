@@ -6,15 +6,23 @@ const INITIAL_STATE: IPosts = {};
 
 const posts = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
+    case constants.ALL_POSTS:
+      return state;
     case constants.ADD_POST:
+      const newData = action.newPosts.reduce((obj: any, post: PostEdge) => {
+        if (post.node) {
+          return {
+            ...obj,
+            [post.cursor]: post.node,
+          };
+        } else {
+          return obj;
+        }
+      });
+      console.log({ newData });
       return {
         ...state,
-        ...action.newPosts.reducer((obj: IPosts, post: PostEdge) => {
-          if (post.node) {
-            obj[post.cursor] = post.node;
-            return obj;
-          }
-        }),
+        ...newData,
       };
     case constants.FIND_POST:
       return state[action.id];

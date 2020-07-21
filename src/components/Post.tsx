@@ -8,7 +8,6 @@ import CommentInput from './CommentInput';
 import BodyPost from './BodyPost';
 
 const Post = ({ post }: { post: any }) => {
-  console.log(post);
   if (!post) {
     return <></>;
   }

@@ -1,24 +1,32 @@
 import React, { useEffect } from 'react';
-import { Text } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import { useLazyQuery } from '@apollo/client';
 import { GetCommentsQuery, GetCommentsDocument } from '../generated/graphql';
 import BodyPost from '../components/BodyPost';
 import CommentInput from '../components/CommentInput';
-import { BoxBottom } from '../styles';
+import { PageContainer, BoxBottom } from '../styles';
 
-const POSTS_PER_PAGE = 20;
+const POSTS_PER_PAGE = 40;
 
 const Comments = ({ navigation, route }: { navigation: any; route: any }) => {
   const { postID } = route.params;
   const [getData, { loading, error, data, fetchMore }] = useLazyQuery<
     GetCommentsQuery
   >(GetCommentsDocument);
+  let scrollView: ScrollView | null;
+
+  const scrollBottom = () => scrollView?.scrollToEnd({ animated: true });
 
   useEffect(() => {
     getData({
       variables: { postID, first: POSTS_PER_PAGE },
     });
   }, [postID]);
+
+  useEffect(() => {
+    console.log(data);
+    setTimeout(() => scrollBottom(), 100);
+  }, [data]);
 
   console.log(data);
   if (loading) return <Text>Loading...</Text>;
@@ -44,12 +52,19 @@ const Comments = ({ navigation, route }: { navigation: any; route: any }) => {
   };
 
   return (
-    <>
-      {renderComments()}
+    <PageContainer>
+      <ScrollView
+        style={{ maxHeight: '90%', width: '100%' }}
+        ref={(ref) => {
+          scrollView = ref;
+        }}
+        onContentSizeChange={() => scrollBottom()}>
+        {renderComments()}
+      </ScrollView>
       <BoxBottom>
         <CommentInput postID={postID} />
       </BoxBottom>
-    </>
+    </PageContainer>
   );
 };
 

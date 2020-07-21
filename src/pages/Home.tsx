@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { ScrollView, Text, Button } from 'react-native';
 import { PageContainer } from '../styles';
