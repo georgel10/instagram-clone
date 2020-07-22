@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useMutation } from '@apollo/client';
 import { Row, CircleButton, InputFormComment } from '../styles';
@@ -12,7 +12,9 @@ import {
 
 const CommentInput = ({ postID }: { postID: string }) => {
   const [comment, setComment] = useState('');
-  const [addComment] = useMutation<AddCommentMutation>(AddCommentDocument);
+  const [addComment, { loading }] = useMutation<AddCommentMutation>(
+    AddCommentDocument,
+  );
 
   const submitComment = async () => {
     console.log({ comment, postID });
@@ -38,10 +40,15 @@ const CommentInput = ({ postID }: { postID: string }) => {
         placeholder="Di algo"
         onChangeText={(text) => setComment(text)}
         value={comment}
+        editable={!loading}
       />
       <CircleButton onPress={submitComment}>
         <View>
-          <Icon name="send" type="ionicon" size={16} color="white" />
+          {loading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <Icon name="send" type="ionicon" size={16} color="white" />
+          )}
         </View>
       </CircleButton>
     </Row>

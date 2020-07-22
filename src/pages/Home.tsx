@@ -8,6 +8,7 @@ import {
   Post as IPost,
 } from '../generated/graphql';
 import Post from '../components/Post';
+import HomeSkeleton from '../components/loading/homeSkeleton';
 
 const POSTS_PER_PAGE = 2;
 
@@ -19,7 +20,7 @@ const Home = () => {
     },
   );
 
-  if (loading) return <Text>Loading...</Text>;
+  if (loading) return <HomeSkeleton />;
   if (error) return <Text>Error! ${error.message}</Text>;
 
   const loadMore = () => {
@@ -47,6 +48,7 @@ const Home = () => {
       });
     }
   };
+
 
   return (
     <PageContainer>

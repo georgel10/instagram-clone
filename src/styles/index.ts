@@ -12,6 +12,17 @@ export const Row = styled.View`
   flex-direction: row;
 `;
 
+export const LoadingContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  flex-direction: row;
+  padding: 10px;
+`;
+
+export const Loading = styled.ActivityIndicator`
+  color: #0000ff;
+`;
+
 export const BoxBottom = styled.View`
   flex: 1;
   display: flex;

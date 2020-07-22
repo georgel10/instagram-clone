@@ -5,6 +5,7 @@ import { GetCommentsQuery, GetCommentsDocument } from '../generated/graphql';
 import BodyPost from '../components/BodyPost';
 import CommentInput from '../components/CommentInput';
 import { PageContainer, BoxBottom } from '../styles';
+import CommentSkeleton from '../components/loading/CommentSkeleton';
 
 const POSTS_PER_PAGE = 40;
 
@@ -29,7 +30,7 @@ const Comments = ({ navigation, route }: { navigation: any; route: any }) => {
   }, [data]);
 
   console.log(data);
-  if (loading) return <Text>Loading...</Text>;
+  if (loading) return <CommentSkeleton />;
   if (error) return <Text>Error! ${error.message}</Text>;
 
   const comments = data?.getComments?.edges;
@@ -59,6 +60,7 @@ const Comments = ({ navigation, route }: { navigation: any; route: any }) => {
           scrollView = ref;
         }}
         onContentSizeChange={() => scrollBottom()}>
+        {loading && <CommentSkeleton />}
         {renderComments()}
       </ScrollView>
       <BoxBottom>
