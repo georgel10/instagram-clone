@@ -29,6 +29,14 @@ export const BoxBottom = styled.View`
   flex-direction: column-reverse;
 `;
 
+export const Box = styled.View`
+  height: 300px;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Logo = styled.Text`
   width: 100%;
   align-self: center;
